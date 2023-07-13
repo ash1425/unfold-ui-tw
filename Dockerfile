@@ -7,7 +7,8 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn --frozen-lockfile
 
-FROM base as builder
+FROM deps as builder
+ENV NEXT_PRIVATE_STANDALONE=true
 WORKDIR /app
 COPY . .
 RUN yarn build
