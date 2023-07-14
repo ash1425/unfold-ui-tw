@@ -151,7 +151,7 @@ resource "aws_ecs_service" "unfold-ui-nextjs-app-service" {
   task_definition = aws_ecs_task_definition.unfold-ui-nextjs-app-task.arn
   # Referencing the task our service will spin up
   launch_type     = "FARGATE"
-  desired_count   = 1 # Setting the number of containers we want deployed to 3
+  desired_count   = 3 # Setting the number of containers we want deployed to 3
 
   load_balancer {
     target_group_arn = aws_lb_target_group.unfold-ui-nextjs-app-target_group.arn # Referencing our target group
