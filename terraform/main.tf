@@ -37,9 +37,6 @@ resource "aws_cloudwatch_log_group" "lg" {
   retention_in_days = 1
 }
 
-data "aws_ssm_parameter" "contentful_token" {
-  name = "/myapp/contentful-token"
-}
 # Creating the task definition
 resource "aws_ecs_task_definition" "unfold-ui-nextjs-app-task" {
   family                   = "unfold-ui-nextjs-app-task"
@@ -51,15 +48,9 @@ resource "aws_ecs_task_definition" "unfold-ui-nextjs-app-task" {
 
   container_definitions = jsonencode([
     {
-      name      = "unfold-ui-nextjs-app-container"
-      image     = "public.ecr.aws/j5l0m1q0/unfold-ui-next-app:latest"
-      essential = true
-      secrets   = [
-        {
-          "valueFrom" : "${data.aws_ssm_parameter.contentful_token.arn}",
-          "name" : "CONTENTFUL_TOKEN"
-        }
-      ]
+      name             = "unfold-ui-nextjs-app-container"
+      image            = "public.ecr.aws/j5l0m1q0/unfold-ui-next-app:latest"
+      essential        = true
       logConfiguration = {
         logDriver = "awslogs"
         options   = {

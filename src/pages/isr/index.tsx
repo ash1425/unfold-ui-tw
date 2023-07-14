@@ -6,8 +6,8 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 const inter = Inter({ subsets: ["latin"] });
 
 export const getStaticProps: GetStaticProps = async () => {
-  console.log(`Getting props for Static Page ...................`);
-  return { props: { time: new Date().toLocaleString() } };
+  console.log(`Getting props for ISR Page ...................`);
+  return { props: { time: new Date().toLocaleString() }, revalidate: 20 };
 };
 
 export default function Home({ time }: { time: string }) {
