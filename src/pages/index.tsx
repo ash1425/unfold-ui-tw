@@ -54,7 +54,7 @@ export default function Home({intros}: { intros: { id: string, title: string }[]
                     document.cookie = `LOCALE=${newLocale}; path=/; ${expires}`
                 }} value={locale} className={"text-black"}>
                     <option value={"en"}>English</option>
-                    <option value={"it"}>Italino</option>
+                    <option value={"it"}>Italiano</option>
                 </select>
             </div>
             <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex pb-24">
