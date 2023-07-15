@@ -1,3 +1,4 @@
+#create cluster
 resource "aws_ecs_cluster" "unfold-ui-ecs-cluster" {
   name = "unfold-ui-ecs-cluster"
 }
@@ -32,6 +33,7 @@ resource "aws_iam_role_policy_attachment" "readParams_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
 }
 
+#application logs
 resource "aws_cloudwatch_log_group" "lg" {
   name              = "/team/unfold-ui-nextjs-app"
   retention_in_days = 1
@@ -188,7 +190,7 @@ resource "aws_security_group" "unfold-ui-nextjs-app-service_security_group" {
   }
 }
 
-resource "aws_lb_listener" "my_listener" {
+resource "aws_lb_listener" "unfold-ui-nextjs_listener" {
   load_balancer_arn = aws_alb.unfold-ui-nextjs-app-lb.arn
   port              = 80
   protocol          = "HTTP"
@@ -199,10 +201,10 @@ resource "aws_lb_listener" "my_listener" {
   }
 }
 
-resource "aws_cloudfront_distribution" "my_distribution" {
+resource "aws_cloudfront_distribution" "unfold-ui-nextjs_distribution" {
   origin {
     domain_name = aws_alb.unfold-ui-nextjs-app-lb.dns_name
-    origin_id   = "my-alb-origin"
+    origin_id   = "unfold-ui-nextjs-alb-origin"
 
     custom_origin_config {
       http_port              = 80
@@ -219,7 +221,7 @@ resource "aws_cloudfront_distribution" "my_distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "my-alb-origin"
+    target_origin_id = "unfold-ui-nextjs-alb-origin"
 
     forwarded_values {
       query_string = false
@@ -247,6 +249,6 @@ output "lb_dns" {
 }
 
 output "cloudfront" {
-  value       = aws_cloudfront_distribution.my_distribution.domain_name
+  value       = aws_cloudfront_distribution.unfold-ui-nextjs_distribution.domain_name
   description = "AWS Cloudfront DNS Name"
 }
